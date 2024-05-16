@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button, Alert } from 'reactstrap';
+import '../styles/botones.css';
 
 function Estudiante() {
 
@@ -47,6 +48,7 @@ function Estudiante() {
 
         setData(datos_nuevos);
         setBanderaEditar(false);
+        setMensajeAlerta(`Estudiante ${estudianteSeleccionado.nombre} ${estudianteSeleccionado.apellido} actualizado con exito`);
     }
 
     const eliminarEstudiante = () => {
@@ -56,15 +58,18 @@ function Estudiante() {
 
         setData(nuevos_datos);
         setBanderaEliminar(false);
+        setMensajeAlerta(`Estudiante ${estudianteSeleccionado.nombre} ${estudianteSeleccionado.apellido} eliminado con exito`);
+
     }
 
     const crearEstudiante = () => {
-        var estudiante_a_ingresar = estudianteSeleccionado; 
+        var estudiante_a_ingresar = estudianteSeleccionado;
         var nuevos_datos = data;
         estudiante_a_ingresar.id = nuevos_datos[nuevos_datos.length - 1].id + 1;
         nuevos_datos.push(estudiante_a_ingresar);
-        setData(nuevos_datos); 
+        setData(nuevos_datos);
         setBanderaInsertar(false);
+        setMensajeAlerta(`Estudiante ${estudianteSeleccionado.nombre} ${estudianteSeleccionado.apellido} ingresado con exito`);
     }
 
     return (
@@ -72,8 +77,8 @@ function Estudiante() {
             <h3>Listado Estudiantes</h3>
             <Button
                 color='success'
-                large = 'lg'
-                onClick={()=> seleccionarEstudiante(null, 'Insertar')}>
+                large='lg'
+                onClick={() => seleccionarEstudiante(null, 'Insertar')}>
                 Insertar
             </Button>
             <p>    </p>
@@ -96,14 +101,17 @@ function Estudiante() {
                                 <td>{elemento.nombre}</td>
                                 <td>{elemento.apellido}</td>
                                 <td>
-                                    <button className="btn btn-primary"
-                                        onClick={() => seleccionarEstudiante(elemento, 'Editar')}>
-                                        Editar
-                                    </button>
-                                    <button className="btn btn-danger"
-                                        onClick={() => seleccionarEstudiante(elemento, 'Eliminar')}>
-                                        Eliminar
-                                    </button>
+                                    
+                                        <button className="btn btn-primary"
+                                            onClick={() => seleccionarEstudiante(elemento, 'Editar')}>
+                                            Editar
+                                        </button>
+                                        <button className="btn btn-danger"
+                                            onClick={() => seleccionarEstudiante(elemento, 'Eliminar')}>
+                                            Eliminar
+                                        </button>
+                                   
+
                                 </td>
                             </tr>
                         ))
@@ -189,46 +197,50 @@ function Estudiante() {
                             readOnly
                             type='text'
                             name='id'
-                            value={data[data.length -1].id + 1} 
+                            value={data[data.length - 1].id + 1}
                         />
-                        <br/>
+                        <br />
                         <label>Cedula</label>
                         <input className='form-control'
                             type='text'
                             name='cedula'
                             onChange={handleChangeInput}
-                            value={estudianteSeleccionado ? estudianteSeleccionado.cedula: ''} 
+                            value={estudianteSeleccionado ? estudianteSeleccionado.cedula : ''}
                         />
-                        <br/>
+                        <br />
                         <label>Nombre</label>
                         <input className='form-control'
                             type='text'
                             name='nombre'
                             onChange={handleChangeInput}
-                            value={estudianteSeleccionado ? estudianteSeleccionado.nombre: ''} 
+                            value={estudianteSeleccionado ? estudianteSeleccionado.nombre : ''}
                         />
-                        <br/>
+                        <br />
                         <label>Apellido</label>
                         <input className='form-control'
                             type='text'
                             name='apellido'
                             onChange={handleChangeInput}
-                            value={estudianteSeleccionado ? estudianteSeleccionado.apellido: ''} 
+                            value={estudianteSeleccionado ? estudianteSeleccionado.apellido : ''}
                         />
-                        <br/>
+                        <br />
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <button className='btn btn-primary'
-                        onClick={()=>crearEstudiante()}>
+                        onClick={() => crearEstudiante()}>
                         Guardar
                     </button>
                     <button className='btn btn-danger'
-                        onClick={()=>setBanderaInsertar(false)}>
+                        onClick={() => setBanderaInsertar(false)}>
                         Cancelar
                     </button>
                 </ModalFooter>
             </Modal>
+
+            <Alert color='primary'>
+                {mensajeAlerta}
+            </Alert>
 
         </div>
     )
